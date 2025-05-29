@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor Login - Cosmic Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Cosmic Background Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #2a0050, #4c007a);
+            color: #e0e0e0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top left, rgba(121, 58, 255, 0.2) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(255, 105, 180, 0.2) 0%, transparent 40%);
+            animation: cosmicGlow 15s infinite alternate ease-in-out;
+            z-index: 1;
+        }
+
+        @keyframes cosmicGlow {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1) rotate(5deg); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Login Container */
+        .login-container {
+            display: flex;
+            max-width: 900px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            z-index: 2;
+            animation: formAppear 0.8s ease-out;
+        }
+
+        @keyframes formAppear {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tutor Image Section */
+        .tutor-image {
+            flex: 1;
+            background-image: url('https://images.unsplash.com/photo-1580894732444-8ecded7900cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .tutor-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(42, 0, 80, 0.7), rgba(76, 0, 122, 0.3));
+        }
+
+        .image-caption {
+            position: relative;
+            padding: 30px;
+            color: white;
+            z-index: 2;
+        }
+
+        .image-caption h2 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .image-caption p {
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Form Section */
+        .login-form {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            letter-spacing: -0.8px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        select, input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            box-sizing: border-box;
+            font-size: 1em;
+            color: #ffffff;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+        }
+
+        select:focus, input:focus {
+            border-color: #8a2be2;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(138, 43, 226, 0.3);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        option {
+            background: #4c007a;
+            color: white;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(45deg, #8a2be2, #00bfff);
+            color: white;
+            padding: 18px 25px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .subject-icon {
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9em;
+            animation: alertFadeIn 0.5s forwards;
+        }
+
+        @keyframes alertFadeIn {
+            to { opacity: 1; }
+        }
+
+        .alert-success {
+            background-color: rgba(144, 238, 144, 0.8);
+            color: #006400;
+            border: 1px solid rgba(0, 100, 0, 0.4);
+        }
+
+        .alert-error {
+            background-color: rgba(255, 99, 71, 0.8);
+            color: #8b0000;
+            border: 1px solid rgba(139, 0, 0, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+            }
+            
+            .tutor-image {
+                height: 200px;
+            }
+            
+            .login-form {
+                padding: 30px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="tutor-image">
+            <div class="image-caption">
+                <h2>Welcome Tutors</h2>
+                <p>Access your teaching portal to manage student progress and assignments</p>
+            </div>
+        </div>
+        <div class="login-form">
+            <h1>Tutor Login</h1>
+            
+            <% if (success && success.length > 0) { %>
+                <div class="alert alert-success">
+                    <%= success[0] %>
+                </div>
+            <% } else if (error && error.length > 0) { %>
+                <div class="alert alert-error">
+                    <%= error[0] %>
+                </div>
+            <% } %>
+            
+            <form action="/login26-tutors45-099" method="post">
+                <select name="subject" id="Subjects" required>
+                    <option value="" disabled selected>Select Your Subject</option>
+                    <option value="Mathematics"><span class="subject-icon">📐</span> Mathematics</option>
+                    <option value="Physics"><span class="subject-icon">⚛️</span> Physics</option>
+                    <option value="Chemistry"><span class="subject-icon">🧪</span> Chemistry</option>
+                    <option value="Biology"><span class="subject-icon">🧬</span> Biology</option>
+                    <option value="English"><span class="subject-icon">📖</span> English</option>
+                    <option value="History"><span class="subject-icon">🏛️</span> History</option>
+                    <option value="Geography"><span class="subject-icon">🌍</span> Geography</option>
+                </select>
+                <input type="password" id="password" name="password" placeholder="Enter Your Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Cosmic Glow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset & Body Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif; /* Modern, clean font */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #2a0050, #4c007a); /* Dark purple-blue gradient */
+            color: #e0e0e0; /* Light text for contrast */
+            overflow: hidden; /* Hide overflow for background animation */
+            position: relative; /* For positioning pseudo-elements */
+        }
+
+        /* Background Animation - Cosmic Dust Effect */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top left, rgba(121, 58, 255, 0.2) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(255, 105, 180, 0.2) 0%, transparent 40%);
+            animation: cosmicGlow 15s infinite alternate ease-in-out;
+            z-index: 1; /* Below the form */
+        }
+
+        @keyframes cosmicGlow {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1) rotate(5deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Login Form Container */
+        form {
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+            border-radius: 20px; /* More rounded corners */
+            padding: 40px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Stronger, softer shadow */
+            width: 100%;
+            max-width: 480px; /* Generous width */
+            z-index: 2; /* Above the background animation */
+            position: relative; /* For z-index to work */
+            display: flex;
+            flex-direction: column;
+            gap: 25px; /* More space between elements */
+            animation: formAppear 0.8s ease-out; /* Smooth entrance for the form */
+        }
+
+        @keyframes formAppear {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Heading */
+        h1 {
+            text-align: center;
+            color: #ffffff; /* White text for heading */
+            margin-bottom: 30px;
+            font-size: 2.8em; /* Larger, bolder heading */
+            letter-spacing: -0.8px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Input Fields */
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 16px 20px; /* Ample padding */
+            background: rgba(255, 255, 255, 0.15); /* Slightly less opaque input background */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+            border-radius: 12px; /* Nicely rounded inputs */
+            box-sizing: border-box;
+            font-size: 1.1em;
+            color: #ffffff; /* White text for input */
+            transition: all 0.3s ease;
+        }
+
+        input[type="email"]::placeholder,
+        input[type="password"]::placeholder {
+            color: rgba(255, 255, 255, 0.7); /* Lighter placeholder */
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #8a2be2; /* Blue violet on focus */
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(138, 43, 226, 0.3); /* Glow effect on focus */
+            background: rgba(255, 255, 255, 0.25); /* Slightly brighter on focus */
+        }
+
+        /* Submit Button */
+        button[type="submit"] {
+            background: linear-gradient(45deg, #8a2be2, #00bfff); /* Blue violet to deep sky blue gradient */
+            color: white;
+            padding: 18px 25px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.3em;
+            font-weight: 600; /* Bolder text */
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Button shadow */
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-3px); /* More pronounced lift on hover */
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4); /* Enhanced shadow on hover */
+            filter: brightness(1.1); /* Slightly brighter gradient */
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            filter: brightness(0.9);
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1em;
+            word-wrap: break-word;
+            opacity: 0; /* Start hidden for animation */
+            animation: alertFadeIn 0.5s forwards; /* Fade in animation */
+        }
+
+        @keyframes alertFadeIn {
+            to { opacity: 1; }
+        }
+
+        .alert-success {
+            background-color: rgba(144, 238, 144, 0.8); /* Light green, slightly transparent */
+            color: #006400; /* Dark green text */
+            border: 1px solid rgba(0, 100, 0, 0.4);
+        }
+
+        .alert-error {
+            background-color: rgba(255, 99, 71, 0.8); /* Tomato red, slightly transparent */
+            color: #8b0000; /* Dark red text */
+            border: 1px solid rgba(139, 0, 0, 0.4);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 600px) {
+            form {
+                padding: 30px;
+                margin: 20px; /* Add margin on smaller screens */
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            input[type="email"],
+            input[type="password"] {
+                padding: 14px 18px;
+                font-size: 1em;
+            }
+
+            button[type="submit"] {
+                padding: 16px 20px;
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <form action="/login" method="post">
+        <h1>Welcome Back!</h1>
+
+        <% if (success && success.length > 0) { %>
+            <div class="alert alert-success">
+                <%= success[0] %>
+            </div>
+        <% } else if (error && error.length > 0) { %>
+            <div class="alert alert-error">
+                <%= error[0] %>
+            </div>
+        <% } %>
+
+        <input type="email" name="email" id="email" placeholder="Your Email" required>
+        <input type="password" name="password" id="password" placeholder="Password" required>
+        <button type="submit">Log In Securely</button>
+    </form>
+</body>
+</html>

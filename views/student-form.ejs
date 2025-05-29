@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Student Points</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --light-gray: #f5f7fa;
+            --dark-gray: #7f8c8d;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --subject-colors: {
+                Mathematics: #3f51b5,
+                Physics: #9c27b0,
+                Chemistry: #ff5722,
+                Biology: #4caf50,
+                English: #2196f3,
+                History: #795548,
+                Geography: #009688
+            };
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        /* Alert Messages */
+        .alert {
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .alert-success {
+            background-color: rgba(46, 204, 113, 0.2);
+            border-left: 4px solid var(--success-color);
+            color: #1e8449;
+        }
+        
+        .alert-error {
+            background-color: rgba(231, 76, 60, 0.2);
+            border-left: 4px solid var(--error-color);
+            color: #c0392b;
+        }
+        
+        /* Subject Sections */
+        .subject-section {
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+        
+        .subject-header {
+            padding: 15px 25px;
+            color: white;
+            font-size: 1.3em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .subject-icon {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        /* Points Table */
+        .points-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .points-table th {
+            background-color: var(--light-gray);
+            color: var(--secondary-color);
+            font-weight: 600;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .points-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .points-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .points-table tr:hover {
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+        
+        .student-name {
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+        
+        .point-input {
+            width: 80px;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .point-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .save-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .save-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        /* No Data Message */
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            color: var(--dark-gray);
+            font-style: italic;
+        }
+        
+        /* Subject Color Classes */
+        .subject-Mathematics { background-color: #3f51b5; }
+        .subject-Physics { background-color: #9c27b0; }
+        .subject-Chemistry { background-color: #ff5722; }
+        .subject-Biology { background-color: #4caf50; }
+        .subject-English { background-color: #2196f3; }
+        .subject-History { background-color: #795548; }
+        .subject-Geography { background-color: #009688; }
+    </style>
+</head>
+<body>
+    <% if (success.length > 0) { %>
+        <div class="alert alert-success">
+            <%= success[0] %>
+        </div>
+    <% } else if (error.length > 0) { %>
+        <div class="alert alert-error">
+            <%= error[0] %>
+        </div>
+    <% } %>
+    
+    <% if (users.length > 0 && tutors.length > 0) { %>
+        <% tutors.forEach(tutor => { %>
+            <div class="subject-section">
+                <div class="subject-header subject-<%= tutor.subject.replace(/\s+/g, '') %>">
+                    <span class="subject-icon">
+                        <% if (tutor.subject === 'Mathematics') { %>📐<% } %>
+                        <% if (tutor.subject === 'Physics') { %>⚛️<% } %>
+                        <% if (tutor.subject === 'Chemistry') { %>🧪<% } %>
+                        <% if (tutor.subject === 'Biology') { %>🧬<% } %>
+                        <% if (tutor.subject === 'English') { %>📖<% } %>
+                        <% if (tutor.subject === 'History') { %>🏛️<% } %>
+                        <% if (tutor.subject === 'Geography') { %>🌍<% } %>
+                    </span>
+                    <%= tutor.subject %>
+                </div>
+                
+                <table class="points-table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Points</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach(user => { %>
+                            <tr>
+                                <td class="student-name"><%= user.name %> <%= user.lastName %></td>
+                                <td>
+                                    <form action="/point-valid" method="post">
+                                        <input type="hidden" name="id" value="<%= user.id %>">
+                                        <input type="hidden" name="fullname" value="<%= user.name %> <%= user.lastName %>">
+                                        <input type="hidden" name="subject" value="<%= tutor.subject %>">
+                                        <input type="text" class="point-input" name="point" placeholder="0-20" required>
+                                </td>
+                                <td>
+                                        <button type="submit" class="save-btn">Save</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <div class="no-data">
+            <p>No students or tutors found</p>
+        </div>
+    <% } %>
+</body>
+</html>

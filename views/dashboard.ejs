@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Administration</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --light-gray: #f5f7fa;
+            --dark-gray: #7f8c8d;
+            --sophomore-color: #4fc3f7;
+            --junior-color: #66bb6a;
+            --senior-color: #ba68c8;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        h1 {
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        
+        h2.section-title {
+            color: var(--secondary-color);
+            margin-top: 30px;
+            padding-left: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .alert-success {
+            background-color: rgba(46, 204, 113, 0.2);
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .alert-error {
+            background-color: rgba(231, 76, 60, 0.2);
+            border-left: 4px solid var(--error-color);
+        }
+        
+        form {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        input, select, button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        button[type="submit"] {
+            background-color: var(--success-color);
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #27ae60;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: var(--light-gray);
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        tr:hover {
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+        
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-right: 5px;
+            width: auto;
+            display: inline-block;
+        }
+        
+        .delete-btn {
+            background-color: var(--error-color);
+        }
+        
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .class-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .sophomore-badge {
+            background-color: var(--sophomore-color);
+        }
+        
+        .junior-badge {
+            background-color: var(--junior-color);
+        }
+        
+        .senior-badge {
+            background-color: var(--senior-color);
+        }
+        
+        .point-cell {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 30px;
+            color: var(--dark-gray);
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Add New Students</h1>
+    <% if (success.length> 0) { %>
+        <div class="alert alert-success">
+            <%= success[0] %>
+        </div>
+    <% } else if (error.length> 0) { %>
+        <div class="alert alert-error">
+            <%= error[0] %>
+        </div>
+    <% } %>
+    
+    <form action="/add-new-students" method="post">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <input type="text" name="name" id="name" placeholder="First Name" required>
+                <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
+            </div>
+            <div>
+                <select name="studentClass" id="studentClass" required>
+                    <option value="" disabled selected>Select Class</option>
+                    <option value="Sophomore">Sophomore</option>
+                    <option value="Junior">Junior</option>
+                    <option value="Senior">Senior</option>
+                </select>
+                <input type="email" name="email" id="email" placeholder="Email Address" required>
+                <input type="password" name="password" id="password" placeholder="Password" required>
+            </div>
+        </div>
+        <button type="submit">Add Student</button>
+    </form>
+    
+    <h2 class="section-title">Student Records</h2>
+    
+    <% if (resultUsers.length> 0 ) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Class</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% resultUsers.forEach(student => { %>
+                    <tr>
+                        <td><%= student.id %></td>
+                        <td><%= student.name %> <%= student.lastName %></td>
+                        <td><%= student.email %></td>
+                        <td>
+                            <span class="class-badge <%= student.studentClass.toLowerCase() %>-badge">
+                                <%= student.studentClass %>
+                            </span>
+                        </td>
+                        <td>
+                            <form action="/delete-users/<%= student.id %>" method="post" style="display: inline;">
+                                <button type="submit" class="action-btn delete-btn">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <div class="no-data">No student records found</div>
+    <% } %>
+
+    <h2 class="section-title">Student Points</h2>
+    
+    <% if (resultPoints.length> 0 ) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Subject</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% resultPoints.forEach(point => { %>
+                    <tr>
+                        <td><%= point.fullname %></td>
+                        <td><%= point.subject %></td>
+                        <td class="point-cell"><%= point.point %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <div class="no-data">No points data available</div>
+    <% } %>
+
+    <h2 class="section-title">Tutor Login</h2>
+    <form id="tutorForm">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <select name="subject" id="Subjects" required>
+                    <option value="" disabled selected>Select Subject</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Biology">Biology</option>
+                    <option value="English">English</option>
+                    <option value="History">History</option>
+                    <option value="Geography">Geography</option>
+                </select>
+            </div>
+            <div>
+                <input type="password" id="password-tutors" placeholder="Tutor Password" required>
+            </div>
+        </div>
+        <button type="submit">Login as Tutor</button>
+    </form>
+
+    <script>
+        document.getElementById('tutorForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const subject = document.getElementById('Subjects').value;
+            const password = document.getElementById('password-tutors').value;
+
+            try {
+                const response = await fetch('/tutors', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ subject, password })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Login successful!');
+                    // Redirect or update UI here
+                } else {
+                    alert('Login failed: ' + (result.error || 'Invalid credentials'));
+                }
+            } catch (error) {
+                alert('An error occurred. Please try again.');
+                console.error('Login error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
